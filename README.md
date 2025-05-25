@@ -1,16 +1,9 @@
-# flutter_application_1
+해야할일  
 
-A new Flutter project.
+연체 후 반납 했을 때 쿠폰 패널티 ⇒반납 기능 익힌 후 완성하기  
 
-## Getting Started
+이용 내역 기능 만들기  
 
-This project is a starting point for a Flutter application.
+공지사항 ⇒ 홍보 or 키오스크  
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+알람 기능 ⇒ 알림 송신을 자동화할 수 있는지 여부 현재는 관리자가 수기로 작성한 알람을 전송하는 상태  
