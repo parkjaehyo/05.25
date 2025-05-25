@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../../login_page/flask_login.dart'; // login_id import 확인
 
 class ReportService {
   static Future<bool> submitReport({
-    required String userId,
     required String title,
     required String content,
   }) async {
@@ -14,7 +14,7 @@ class ReportService {
         url,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'user_id': userId,
+          'user_id': login_id, // 학번 전달
           'title': title,
           'content': content,
         }),

@@ -159,6 +159,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildPointStatusCard() {
+    bool hasBorrowRecord = borrowDay.isNotEmpty && preReturnDay.isNotEmpty;
+
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -178,7 +180,6 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // 🔥 사용자 이름 적용
                       Text(
                         name.isNotEmpty ? "$name님의 대여 상태" : "사용자님의 대여 상태",
                         style: const TextStyle(
@@ -187,30 +188,44 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Text(
-                        isLate ? "연체 상태 🚨" : "남은 대여 시간 🚀",
+                        hasBorrowRecord
+                            ? (isLate ? "연체 상태 🚨" : "남은 대여 시간 🚀")
+                            : "대여 기록이 없습니다 💤",
                         style: TextStyle(
                           fontSize: 13,
-                          color: isLate ? Colors.red : Colors.black54,
+                          color:
+                              hasBorrowRecord
+                                  ? (isLate ? Colors.red : Colors.black54)
+                                  : Colors.grey,
                         ),
                       ),
                       const SizedBox(height: 8),
-                      LinearProgressIndicator(
-                        value: progress,
-                        minHeight: 6,
-                        backgroundColor: Colors.grey[300],
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          isLate ? Colors.red : Colors.green,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      hasBorrowRecord
+                          ? LinearProgressIndicator(
+                            value: progress,
+                            minHeight: 6,
+                            backgroundColor: Colors.grey[300],
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              isLate ? Colors.red : Colors.green,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          )
+                          : Container(), // 🔥 대여 기록 없을 때는 진행 바 숨기기
                       const SizedBox(height: 4),
                       Text(
-                        isLate
-                            ? "연체 ${remainTimeMinutes.abs()}분"
-                            : statusMessage,
+                        hasBorrowRecord
+                            ? (isLate
+                                ? "연체 ${remainTimeMinutes.abs()}분"
+                                : statusMessage)
+                            : "현재 대여 기록이 없습니다.",
                         style: TextStyle(
                           fontSize: 12,
-                          color: isLate ? Colors.red[700] : Colors.green[700],
+                          color:
+                              hasBorrowRecord
+                                  ? (isLate
+                                      ? Colors.red[700]
+                                      : Colors.green[700])
+                                  : Colors.grey,
                         ),
                       ),
                     ],

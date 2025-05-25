@@ -3,11 +3,6 @@ import 'package:http/http.dart' as http;
 import '../login_page/flask_login.dart'; // login_id 전역 변수 import
 
 Future<Map<String, dynamic>?> fetchUserInfo() async {
-  /*if (login_id == null) {
-    print('❌ 로그인 ID 없음. 로그인 후 시도하세요.');
-    return null;
-  }*/
-
   // Flask 서버 URL에 login_id(student_id)를 쿼리 파라미터로 포함
   final url = Uri.parse(
     'http://112.184.197.77:5000/user_info?student_id=$login_id',

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'flask_report.dart'; // 경로 확인
 
 class ReportScreen extends StatefulWidget {
   const ReportScreen({super.key});
@@ -17,7 +16,6 @@ class _ReportScreenState extends State<ReportScreen> {
   Future<void> _submitReport() async {
     final String title = _titleController.text.trim();
     final String content = _contentController.text.trim();
-    final String uid = FirebaseAuth.instance.currentUser?.uid ?? 'anonymous';
 
     if (title.isEmpty || content.isEmpty) {
       if (!mounted) return;
@@ -28,24 +26,23 @@ class _ReportScreenState extends State<ReportScreen> {
     }
 
     try {
-      final response = await http.post(
-        Uri.parse('http://192.168.219.102:5000/report'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'user_id': uid, 'title': title, 'content': content}),
+      bool success = await ReportService.submitReport(
+        title: title,
+        content: content,
       );
 
       if (!mounted) return;
 
-      if (response.statusCode == 200) {
+      if (success) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(const SnackBar(content: Text('신고가 접수되었습니다!')));
         _titleController.clear();
         _contentController.clear();
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('서버 응답 오류: ${response.statusCode}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('신고 전송 실패: 서버 응답 오류')));
       }
     } catch (e) {
       if (!mounted) return;
